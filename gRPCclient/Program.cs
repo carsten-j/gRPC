@@ -9,7 +9,7 @@ var reply = await client.GetWeatherAsync(new WeatherRequest());
 
 foreach (var forecast in reply.Forecasts)
 {
-    Console.WriteLine($"Date: {forecast.Date}, Summary: {forecast.Summary}, Temp (in Celcius): {forecast.TemperatureC}");
+    Console.WriteLine($"Date: {forecast.Date}, Summary: {forecast.Summary}, Temp (in Celsius): {forecast.TemperatureC}");
 }
 
 Console.WriteLine("Press any key to exit...");
