@@ -1,3 +1,4 @@
+using BlazorApp1.Server.Services;
 using BlazorApp1.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,21 +8,17 @@ namespace BlazorApp1.Server.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private readonly IForecastService _forecastService;
+
+        public WeatherForecastController(IForecastService forecastService)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+            _forecastService = forecastService;
+        }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            return Enumerable.Range(1, 100).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return _forecastService.CreateForecasts(100);
         }
     }
 }

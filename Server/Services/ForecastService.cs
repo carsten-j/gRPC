@@ -2,7 +2,12 @@
 
 namespace BlazorApp1.Server.Services
 {
-	public class ForecastService
+    public interface IForecastService
+    {
+        IEnumerable<WeatherForecast> CreateForecasts(int numberOfDays);
+    }
+
+    public class ForecastService : IForecastService
 	{
         private static readonly string[] Summaries = new[]
         {
