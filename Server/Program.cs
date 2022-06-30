@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddScoped<IForecastService, ForecastService>();
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddSwaggerGen();
 builder.Services.AddGrpc();
+builder.Services.AddGrpcReflection(); // used for gRPCurl
 
 builder.Services.AddResponseCompression(opts =>
 {
@@ -22,7 +21,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.UseWebAssemblyDebugging();
+    app.MapGrpcReflectionService(); // used for gRPCurl
 }
 else
 {
@@ -37,11 +39,15 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true }); // Must be added between UseRouting and UseEndpoints
+
+// If DefaultEnabled = true then gRPC-web is enabled for all endpoint by default 
+// and you do not need to call .EnableGrpcWeb() on specific endpoints
+// Must be added between UseRouting and UseEndpoints
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true }); 
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapGrpcService<WeatherService>().EnableGrpcWeb();
+    endpoints.MapGrpcService<WeatherService>(); //.EnableGrpcWeb();
 });
 
 app.MapRazorPages();

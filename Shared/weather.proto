@@ -4,6 +4,8 @@ option csharp_namespace = "BlazorApp1.Shared";
 package WeatherForecast; 
 import "google/protobuf/timestamp.proto"; 
 
+// google.protobuf.Empty
+
 service WeatherForecasts { 
 	rpc GetWeather (WeatherRequest) returns (WeatherReply); 
 } 

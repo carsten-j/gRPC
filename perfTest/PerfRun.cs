@@ -10,7 +10,7 @@ namespace perfTest
     {
         private readonly WeatherForecasts.WeatherForecastsClient gRPCClient;
         private readonly HttpClient httpClient;
-        private readonly int iterations = 10000;
+        private readonly int iterations = 1000;
         private readonly string url = "https://localhost:7069";
         private readonly GrpcChannel channel;
 
@@ -19,17 +19,14 @@ namespace perfTest
             channel = GrpcChannel.ForAddress(url);
             gRPCClient = new WeatherForecasts.WeatherForecastsClient(channel);
 
-            httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(url)
-            };
+            httpClient = new HttpClient { BaseAddress = new Uri(url) };
         }
 
 
         [Benchmark]
         public async Task gRPCClientPerfRun()
         {
-            for (int i = 0; i < iterations; i++)
+            for (var i = 0; i < iterations; i++)
             {
                 var forecasts = (await gRPCClient.GetWeatherAsync(new WeatherRequest())).Forecasts;
             }
@@ -38,7 +35,7 @@ namespace perfTest
         [Benchmark]
         public async Task HttpClientPerfRun()
         {
-            for (int i = 0; i < iterations; i++)
+            for (var i = 0; i < iterations; i++)
             {
                 var forecasts = await httpClient.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
             }
