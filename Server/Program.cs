@@ -1,7 +1,19 @@
 using BlazorApp1.Server.Services;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
+
+const int Port = 8080;
+
+// Additional configuration is required to successfully run gRPC on macOS.
+// For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    // Setup a HTTP/2 endpoint without TLS.
+//    options.ListenLocalhost(Port, o => o.Protocols =
+//        HttpProtocols.Http2);
+//});
 
 builder.Services.AddScoped<IForecastService, ForecastService>();
 builder.Services.AddControllersWithViews();
@@ -17,6 +29,8 @@ builder.Services.AddResponseCompression(opts =>
 });
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -2,7 +2,7 @@
 using Grpc.Net.Client;
 
 // The port number must match the port of the gRPC server.
-using var channel = GrpcChannel.ForAddress("https://localhost:7069");
+using var channel = GrpcChannel.ForAddress("http://localhost:8080");
 var client = new WeatherForecasts.WeatherForecastsClient(channel);
 
 var reply = await client.GetWeatherAsync(new WeatherRequest());

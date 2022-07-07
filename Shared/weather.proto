@@ -1,8 +1,10 @@
 ﻿syntax = "proto3"; 
 
 option csharp_namespace = "BlazorApp1.Shared"; 
-package WeatherForecast; 
+
 import "google/protobuf/timestamp.proto"; 
+
+option go_package = "pb/weatherforecast";
 
 // google.protobuf.Empty
 
