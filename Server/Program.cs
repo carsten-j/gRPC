@@ -8,12 +8,13 @@ const int Port = 8080;
 
 // Additional configuration is required to successfully run gRPC on macOS.
 // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
-//builder.WebHost.ConfigureKestrel(options =>
-//{
+// builder.WebHost.ConfigureKestrel(options =>
+// {
 //    // Setup a HTTP/2 endpoint without TLS.
-//    options.ListenLocalhost(Port, o => o.Protocols =
-//        HttpProtocols.Http2);
-//});
+//    options.ListenLocalhost(Port, o => o.Protocols = HttpProtocols.Http2);
+//    options.ListenLocalhost(5069);    
+//    options.ListenLocalhost(7069, o => o.UseHttps());
+// });
 
 builder.Services.AddScoped<IForecastService, ForecastService>();
 builder.Services.AddControllersWithViews();
